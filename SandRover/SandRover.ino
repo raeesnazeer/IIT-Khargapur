@@ -1,14 +1,13 @@
 #define rc1 A1 // receiver chanel 1 on pin 9
 #define rc2 A2 // receiver chanel 2 on pin 10
 #define rc3 A3 // receiver chanel 3 on pin 11
-#define rc4 12 // receiver chanel 4 on pin 12
+#define rc4 A4 // receiver chanel 4 on pin 12
 
 #define spdLeft 5 // PWM pin on L298N
 #define spdRight 6 // PWM pin on L298N
 
-#define left1 4 // in 2 pin on L298N to pin 4 on ARDUINO
-#define left2 3 // in 3 pin on L298N to pin 3 on ARDUINO
-
+#define left1 3 // in 2 pin on L298N to pin 4 on ARDUINO
+#define left2 4 // in 3 pin on L298N to pin 3 on ARDUINO
 
 #define right1 7 // in 4 pin on L298N to pin 7 on ARDUINO
 #define right2 8 // in 5 pin on L298N to pin 8 on ARDUINO
@@ -46,32 +45,33 @@ void loop() {
   ch3 = pulseIn(rc3, HIGH);
   ch4 = pulseIn(rc4, HIGH);
 
-  Serial.print("\t");
-  Serial.print(ch1);
-  Serial.print("\t");
-  Serial.print(ch2);
-  Serial.print("\t");
-  Serial.println(ch3);
-  delay(500);
+//  Serial.print("\t");
+//  Serial.print(ch1);
+//  Serial.print("\t");
+//  Serial.print(ch2);
+//  Serial.print("\t");
+//  Serial.println(ch3);
+  //delay(100);
 
   // val1 = map(ch1, 1027, 1949, 0, 255); // X-axis
   // val2 = map(ch2, 1003, 1981, 0, 255); // Y-axis
   val3 = map(ch3, 990, 1984, 0, 255); //Speed
   // val4 = map(ch4, 994, 1970, 0, 255);
 
-  if (ch2 < 1400)
+  if (ch2 < 1400 
+  && !(ch1<1400) && !(ch1> 1600))
     moveForward(val3);
   if (ch1 < 1400)
     arcLeft(val3);
-  if (ch1 > 1500)
+  if (ch1 > 1600)
     arcRight(val3);
-  if (ch2 > 1500)
+  if (ch2 > 1500 && !(ch1<1400) && !(ch1> 1600))
     moveBackward(val3);
   if (ch4 < 1400)
     spotLeft(val3);
   if (ch4 > 1500)
     spotRight(val3);
-  else
+  if (ch1 > 1450 && ch1 <1550 && ch2 > 1450 && ch2 < 1550 && ch4 > 1400 && ch4 < 1500)
     Stop();
 }
 //1485 ch1 1949-right
@@ -81,71 +81,71 @@ void loop() {
 void moveForward(int val3)
 {
   Serial.println("FORWARD");
-  analogWrite(spdLeft, val3);
+  analogWrite(spdLeft, (val3+10));
   analogWrite(spdRight, val3);
   digitalWrite(left1, HIGH);
   digitalWrite(left2, LOW);
   digitalWrite(right1, HIGH);
   digitalWrite(right2, LOW);
-  delay(50);
+  delay(25);
 }
 void arcLeft(int val3)
 {
   Serial.println("Arc LEFT");
-  analogWrite(spdLeft, val3);
+  analogWrite(spdLeft, (val3+10));
   analogWrite(spdRight, val3);
   digitalWrite(left1, LOW);
   digitalWrite(left2, LOW);
   digitalWrite(right1, HIGH);
   digitalWrite(right2, LOW);
-  delay(50);
+  delay(25);
 }
 void arcRight(int val3)
 {
   Serial.println("Arc RIGHT");
-  analogWrite(spdLeft, val3);
+  analogWrite(spdLeft, (val3+10));
   analogWrite(spdRight, val3);
   digitalWrite(left1, HIGH);
   digitalWrite(left2, LOW);
   digitalWrite(right1, LOW);
   digitalWrite(right2, LOW);
-  delay(50);
+  delay(25);
 }
 
 void moveBackward(int val3)
 {
   Serial.println("BACKWARD");
-  analogWrite(spdLeft, val3);
+  analogWrite(spdLeft, (val3+10));
   analogWrite(spdRight, val3);
   digitalWrite(left1, LOW);
   digitalWrite(left2, HIGH);
   digitalWrite(right1, LOW);
   digitalWrite(right2, HIGH);
-  delay(50);
+  delay(25);
 }
 
 void spotRight(int val3)
 {
   Serial.println("Spot RIGHT");
-  analogWrite(spdLeft, val3);
+  analogWrite(spdLeft, (val3+10));
   analogWrite(spdRight, val3);
   digitalWrite(left1, HIGH);
   digitalWrite(left2, LOW);
   digitalWrite(right1, LOW);
   digitalWrite(right2, HIGH);
-  delay(50);
+  delay(25);
 }
 
 void spotLeft(int val3)
 {
   Serial.println("Spot LEFT");
-  analogWrite(spdLeft, val3);
+  analogWrite(spdLeft, (val3+10));
   analogWrite(spdRight, val3);
   digitalWrite(left1, LOW);
   digitalWrite(left2, HIGH);
   digitalWrite(right1, HIGH);
   digitalWrite(right2, LOW);
-  delay(50);
+  delay(25);
 }
 void Stop()
 {
@@ -154,6 +154,6 @@ void Stop()
   digitalWrite(left2, LOW);
   digitalWrite(right1, LOW);
   digitalWrite(right2, LOW);
-  delay(50);
+  delay(25);
 }
 
