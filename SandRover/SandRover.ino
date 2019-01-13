@@ -9,8 +9,8 @@
 #define left1 3 // in 2 pin on L298N to pin 4 on ARDUINO
 #define left2 4 // in 3 pin on L298N to pin 3 on ARDUINO
 
-#define right1 7 // in 4 pin on L298N to pin 7 on ARDUINO
-#define right2 8 // in 5 pin on L298N to pin 8 on ARDUINO
+#define right1 8 // in 4 pin on L298N to pin 7 on ARDUINO
+#define right2 7 // in 5 pin on L298N to pin 8 on ARDUINO
 
 int ch1; // value of chanel 1 of the receiver
 int ch2; // value of chanel 2 of the receiver
@@ -81,20 +81,9 @@ void loop() {
 void moveForward(int val3)
 {
   Serial.println("FORWARD");
-  analogWrite(spdLeft, (val3+10));
-  analogWrite(spdRight, val3);
+  analogWrite(spdLeft, val3);
+  analogWrite(spdRight, (val3+10));
   digitalWrite(left1, HIGH);
-  digitalWrite(left2, LOW);
-  digitalWrite(right1, HIGH);
-  digitalWrite(right2, LOW);
-  delay(25);
-}
-void arcLeft(int val3)
-{
-  Serial.println("Arc LEFT");
-  analogWrite(spdLeft, (val3+10));
-  analogWrite(spdRight, val3);
-  digitalWrite(left1, LOW);
   digitalWrite(left2, LOW);
   digitalWrite(right1, HIGH);
   digitalWrite(right2, LOW);
@@ -102,9 +91,20 @@ void arcLeft(int val3)
 }
 void arcRight(int val3)
 {
+  Serial.println("Arc LEFT");
+  analogWrite(spdLeft, val3);
+  analogWrite(spdRight, (val3+10));
+  digitalWrite(left1, LOW);
+  digitalWrite(left2, LOW);
+  digitalWrite(right1, HIGH);
+  digitalWrite(right2, LOW);
+  delay(25);
+}
+void arcLeft(int val3)
+{
   Serial.println("Arc RIGHT");
-  analogWrite(spdLeft, (val3+10));
-  analogWrite(spdRight, val3);
+  analogWrite(spdLeft, val3);
+  analogWrite(spdRight, (val3+10));
   digitalWrite(left1, HIGH);
   digitalWrite(left2, LOW);
   digitalWrite(right1, LOW);
@@ -115,8 +115,8 @@ void arcRight(int val3)
 void moveBackward(int val3)
 {
   Serial.println("BACKWARD");
-  analogWrite(spdLeft, (val3+10));
-  analogWrite(spdRight, val3);
+  analogWrite(spdLeft, val3);
+  analogWrite(spdRight, (val3+10));
   digitalWrite(left1, LOW);
   digitalWrite(left2, HIGH);
   digitalWrite(right1, LOW);
@@ -127,8 +127,8 @@ void moveBackward(int val3)
 void spotRight(int val3)
 {
   Serial.println("Spot RIGHT");
-  analogWrite(spdLeft, (val3+10));
-  analogWrite(spdRight, val3);
+  analogWrite(spdLeft, val3);
+  analogWrite(spdRight, (val3+10));
   digitalWrite(left1, HIGH);
   digitalWrite(left2, LOW);
   digitalWrite(right1, LOW);
@@ -139,8 +139,8 @@ void spotRight(int val3)
 void spotLeft(int val3)
 {
   Serial.println("Spot LEFT");
-  analogWrite(spdLeft, (val3+10));
-  analogWrite(spdRight, val3);
+  analogWrite(spdLeft, val3);
+  analogWrite(spdRight, (val3+10));
   digitalWrite(left1, LOW);
   digitalWrite(left2, HIGH);
   digitalWrite(right1, HIGH);
