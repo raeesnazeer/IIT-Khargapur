@@ -1,1 +1,0 @@
-# IIT-Khargapur-1
